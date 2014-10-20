@@ -7,3 +7,5 @@
 	定时增量导入的时候会出现任务挤压的问题<br/>
 	对于定义的handler操作不灵活<br/>
 	
+3.项目的solrhome*下对数据db导入,suggestion,ik等做了实现<br/>
+	
