@@ -1,0 +1,38 @@
+<dataConfig>
+  <script language="javascript"><![CDATA[
+        ]]></script>
+  <dataSource name="oracle"
+              type="JdbcDataSource" 
+              driver="oracle.jdbc.driver.OracleDriver"
+              jndiName="jdbc/webmsib2b" 
+              />
+		<!--
+  <dataSource name="oracle"
+              type="JdbcDataSource" 
+              driver="oracle.jdbc.driver.OracleDriver"
+              url="jdbc:oracle:thin:@10.6.36.90:1523:utf10gt1" 
+              user="msib2b" 
+              password="msib2b2013"/>
+<dataSource name="oracle"
+              type="JdbcDataSource" 
+              driver="oracle.jdbc.driver.OracleDriver"
+              url="jdbc:oracle:thin:@ (DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.6.183.225)(PORT = 1523)))(CONNECT_DATA=(SERVICE_NAME = nsb2b) (SERVER = DEDICATED)) )" 
+              user="p_chwang" 
+              password="chwang@3533"/>
+			  -->
+
+  <document>
+  <!--old
+    <entity name="ff" pk='FARE_FLIGHT_ID' dataSource="oracle" 
+            query="select c.MARKETINGFLIGHTNUMBER,c.OPERATINGFLIGHTNUMBER,to_char(c.DEPARTINGDATETIME ,'YYYYMMDDHH24MISS') AS DEPARTINGDATETIME,to_char(c.ARRIVALINGDATETIME ,'YYYYMMDDHH24MISS') AS ARRIVALINGDATETIME,c.EFT,c.TERMINALS,c.EQUIPMENT,c.STOPS,c.ONTIMEPERFORMANCE,c.MEALCODE,c.AVERDELAYTIME ,b.*,a.* from msi.msi_fare_flight a,msi.msi_fareinfo b,msi.msi_flightinfo c where a.fare_flight_id=b.fare_flight_id and regexp_substr(b.flightinfo_key,'[^,|^;]+', 1, 3)=c.flightinfo_id "
+			>
+    </entity>
+	-->
+	    <entity name="ff" pk='FARE_FLIGHT_ID' dataSource="oracle" 
+            query="select c.MARKETINGFLIGHTNUMBER,c.OPERATINGFLIGHTNUMBER,to_char(c.DEPARTINGDATETIME ,'YYYYMMDDHH24MISS') AS DEPARTINGDATETIME,to_char(c.ARRIVALINGDATETIME ,'YYYYMMDDHH24MISS') AS ARRIVALINGDATETIME,c.EFT,c.TERMINALS,c.EQUIPMENT,c.STOPS,c.ONTIMEPERFORMANCE,c.MEALCODE,c.AVERDELAYTIME ,b.*,a.* from msi_fare_flight a,msi_fareinfo b,msi_flightinfo c where a.fare_flight_id=b.fare_flight_id and regexp_substr(b.flightinfo_key,'[^,|^;]+', 1, 3)=c.flightinfo_id "
+			deltaImportQuery="select c.MARKETINGFLIGHTNUMBER,c.OPERATINGFLIGHTNUMBER,to_char(c.DEPARTINGDATETIME ,'YYYYMMDDHH24MISS') AS DEPARTINGDATETIME,to_char(c.ARRIVALINGDATETIME ,'YYYYMMDDHH24MISS') AS ARRIVALINGDATETIME,c.EFT,c.TERMINALS,c.EQUIPMENT,c.STOPS,c.ONTIMEPERFORMANCE,c.MEALCODE,c.AVERDELAYTIME ,b.*,a.* from msi_fare_flight a,msi_fareinfo b,msi_flightinfo c where a.fare_flight_id='${dih.delta.FARE_FLIGHT_ID}' and b.fare_flight_id='${dih.delta.FARE_FLIGHT_ID}' and regexp_substr(b.flightinfo_key,'[^,|^;]+', 1, 3)=c.flightinfo_id "
+			deltaQuery="select fare_flight_id from msi_fare_flight where to_char(lastmodify,'YYYY-MM-DD HH24:MI:SS')>'${dih.last_index_time}' "
+			>
+    </entity>
+  </document>
+</dataConfig>

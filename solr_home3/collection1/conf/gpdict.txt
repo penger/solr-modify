@@ -1,0 +1,3 @@
+Hard disk hitachi
+Hard disk wd    2.0
+Hard disk jjdd    3.0

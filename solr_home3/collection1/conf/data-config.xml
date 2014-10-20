@@ -1,0 +1,48 @@
+<dataConfig>
+<!--
+  <script><![CDATA[
+                function startDateTransform(row)        {
+                   var dateVal=row.get('depart').dateValue();
+                    row.put('date',dateVal);
+                    return row;
+                }
+        ]]></script>
+-->
+ <dataSource name="mysql"
+              type="JdbcDataSource" 
+              driver="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/bysj" 
+              user="root" 
+              password="gp"/>
+
+  <document>
+  
+<!--
+deltaImportQuery="select * from users where ID='${dih.delta.id}'"
+			deltaQuery="select id from users where last_modified &gt; '${dih.last_index_time}'"
+-->
+
+<!--
+    <entity name="users" dataSource="oracle"  pk="ID"
+            query="select id,username,remark  from users where id &gt; '${dih.request.ln}'">
+-->
+<!-- 
+    <entity name="users" dataSource="mysql"  pk="ID"
+            query="select id,username,remark  from users where id &gt; '${dih.request.ln}'">
+			<field column="id"/>
+			<field column="username"/>
+			<field column="remark"/>
+			<entity name="articles" query="select id,title from article where id='${users.id}'">
+				<field column="title"/>
+				<field name="aritcleid" column="id"/>
+			</entity>
+    </entity>
+-->
+   
+
+       <entity name="article" dataSource="mysql"  pk="ID"
+            query="select *  from article">
+    </entity>
+
+  </document>
+</dataConfig>
