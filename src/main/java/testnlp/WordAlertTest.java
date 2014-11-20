@@ -2,7 +2,6 @@ package testnlp;
 
 
 import java.io.BufferedReader;
-
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -16,6 +15,9 @@ import org.nlpcn.commons.lang.index.MemoryIndex;
 import org.nlpcn.commons.lang.pinyin.Pinyin;
 import org.nlpcn.commons.lang.pinyin.PinyinWord;
 import org.nlpcn.commons.lang.standardization.WordUtil;
+import org.nlpcn.commons.lang.tire.SmartGetWord;
+import org.nlpcn.commons.lang.tire.domain.SmartForest;
+import org.nlpcn.commons.lang.util.StringUtil;
 import org.nlpcn.commons.lang.util.WordAlert;
 
 /**
@@ -90,7 +92,7 @@ public class WordAlertTest {
 	    public  void jj() throws Exception {
 	    	
 	    	BloomFilter bf = new BloomFilter(32); //使用32m内存过滤器。近似值
-	        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Users\\caiqing\\workspace\\CQ\\library\\dictionary-utf8.TXT"), "UTF-8"));
+	        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\test\\a\\a.txt"), "UTF-8"));
 	        String str = null;
 	        System.out.println("begin");
 	        long start = System.currentTimeMillis();
@@ -102,7 +104,7 @@ public class WordAlertTest {
 
 	        br.close();
 
-	        br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Users\\caiqing\\workspace\\CQ\\library\\dictionary-utf8.TXT"), "UTF-8"));
+	        br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\test\\a\\a.txt"), "UTF-8"));
 	        System.out.println("begin-find");
 	        start = System.currentTimeMillis();
 	        while ((str = br.readLine()) != null) {
@@ -114,4 +116,38 @@ public class WordAlertTest {
 	        System.out.println(System.currentTimeMillis() - start);
 	        br.close();
 	    }
+	    
+	    
+	    
+	    @Test
+	    public void testSmartForest(){
+	        /**
+	         * 词典的构造.一行一个词后面是参数.可以从文件读取.可以是read流.
+	         */
+	        long start = System.currentTimeMillis();
+	        SmartForest<Integer> forest = new SmartForest<Integer>();
+
+	        forest.add("中国", 3);
+
+	        forest.add("android", 5);
+
+	        forest.add("java", 3);
+
+	        forest.add("中国人", 3);
+
+//	        String content = " Android-java-中国人";
+	        String content = " Android-java-中国";
+	        content = StringUtil.rmHtmlTag(content);
+
+	        for (int i = 0; i < 1; i++) {
+	            SmartGetWord<Integer> udg = forest.getWord(content.toLowerCase().toCharArray());
+
+	            String temp = null;
+	            while ((temp = udg.getFrontWords()) != null) {
+	                System.out.println(temp + "\t" + udg.getParam());
+	            }
+	        }
+	        System.out.println(System.currentTimeMillis() - start);
+	    }
+	   
 		}
